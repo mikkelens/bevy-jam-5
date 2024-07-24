@@ -1,4 +1,4 @@
-// Disable console on Windows for non-dev builds.
+// Disable console on Windows for non-dev builds. ?: why is this here?
 #![cfg_attr(not(feature = "dev"), windows_subsystem = "windows")]
 
 use bevy::prelude::*;
