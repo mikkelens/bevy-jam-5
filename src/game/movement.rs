@@ -6,7 +6,6 @@
 use bevy::{prelude::*, window::PrimaryWindow};
 
 use crate::AppSet;
-//todo: adwa
 pub(super) fn plugin(app: &mut App) {
     // Record directional input as movement controls.
     app.register_type::<MovementController>();

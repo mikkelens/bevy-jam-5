@@ -28,7 +28,7 @@
     });
 
     // To resume all AudioContexts being tracked
-    function resumeAllContexts(event) {
+    function resumeAllContexts() {
         let count = 0;
 
         audioContextList.forEach(context => {
@@ -42,7 +42,7 @@
         // If all the AudioContexts have now resumed then we
         // unbind all the event listeners from the page to prevent
         // unnecessary resume attempts
-        if (count == audioContextList.length) {
+        if (count === audioContextList.length) { // CHANGE: from `==` to `===`?
             userInputEventNames.forEach(eventName => {
                 document.removeEventListener(eventName, resumeAllContexts);
             });

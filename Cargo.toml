@@ -24,17 +24,17 @@ default = [
     # Default to a native dev build.
     "dev_native",
 ]
-dev = [
-    # Improve compile times for dev builds by linking Bevy as a dynamic library.
-    "bevy/dynamic_linking",
-    "bevy/bevy_dev_tools",
-]
 dev_native = [
     "dev", #
     # Enable asset hot reloading for native dev builds.
     "bevy/file_watcher",
     # Enable embedded asset hot reloading for native dev builds.
     "bevy/embedded_watcher",
+]
+dev = [
+    # Improve compile times for dev builds by linking Bevy as a dynamic library.
+    "bevy/dynamic_linking",
+    "bevy/bevy_dev_tools",
 ]
 
 # Idiomatic Bevy code often triggers these lints, and the CI workflow treats them as errors.
@@ -87,5 +87,5 @@ strip = "debuginfo"
 inherits = "release"
 # Optimize with performance in mind.
 opt-level = 3
-# Keep debug information in the binary. NOTE: do I need this?
+# Keep debug information in the binary. ?: do I need this?
 strip = "none"

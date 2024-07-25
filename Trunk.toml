@@ -6,8 +6,16 @@ dist = "target/trunk"
 # This is needed in order to host the game on itch.io.
 public_url = "./"
 
+[watch]
+watch = ["./Cargo.toml", "./src", "./assets", "./web"]
+# NOTE: `trunk serve` cannot change its own configuration even on (auto-)reload
+
 [serve]
 # Required in order to receive 404s for missing assets, which is what Bevy expects.
 no_spa = true
 # Open a browser tab once the initial build is complete.
-open = true
+#open = true # NOTE: does not work on windows!
+
+# extra attempts at fixing the above:
+#adresses = ["127.0.0.1"]
+#port = 8080

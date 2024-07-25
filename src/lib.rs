@@ -20,6 +20,12 @@ impl Plugin for AppPlugin {
             (AppSet::TickTimers, AppSet::RecordInput, AppSet::Update).chain(),
         );
 
+        const STARTING_VOLUME_DIVISOR: u8 = 2;
+        const STARTING_VOLUME_INCREMENT: u8 = VOLUME_INCREMENTS / STARTING_VOLUME_DIVISOR;
+        app.insert_resource(GameSettings {
+            volume_level: STARTING_VOLUME_INCREMENT,
+        });
+
         // Spawn the main camera.
         app.add_systems(Startup, spawn_camera);
 
@@ -38,6 +44,7 @@ impl Plugin for AppPlugin {
                         title: "Bevy Jam 5".to_string(),
                         canvas: Some("#bevy".to_string()),
                         fit_canvas_to_parent: true,
+                        // don't let browser steal common inputs (does nothing on native)
                         prevent_default_event_handling: true,
                         ..default()
                     }
@@ -46,7 +53,11 @@ impl Plugin for AppPlugin {
                 })
                 .set(AudioPlugin {
                     global_volume: GlobalVolume {
-                        volume: Volume::new(0.3),
+                        volume: Volume::new(
+                            // start with half of max volume
+                            MAX_VOLUME
+                                * (STARTING_VOLUME_INCREMENT as f32 / VOLUME_INCREMENTS as f32),
+                        ),
                     },
                     ..default()
                 }),
@@ -86,4 +97,13 @@ fn spawn_camera(mut commands: Commands) {
         // for debugging. So it's good to have this here for future-proofing.
         IsDefaultUiCamera,
     ));
+}
+
+const MAX_VOLUME: f32 = 0.275;
+const VOLUME_INCREMENTS: u8 = 8;
+
+#[derive(Resource, Debug, Clone, Eq, PartialEq, Reflect)]
+struct GameSettings {
+    volume_level: u8,
+    // camera shake / vfx off?
 }
