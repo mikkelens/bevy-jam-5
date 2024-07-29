@@ -1,8 +1,8 @@
 //! Helper traits for creating common widgets.
 
-use bevy::{ecs::system::EntityCommands, prelude::*, ui::Val::*};
-
 use super::{interaction::InteractionPalette, palette::*};
+use crate::{BinaryAdjustment, LevelSettingAction};
+use bevy::{ecs::system::EntityCommands, prelude::*, ui::Val::*};
 
 /// An extension trait for spawning UI widgets.
 pub trait Widgets {
@@ -14,6 +14,14 @@ pub trait Widgets {
 
     /// Spawn a simple text label.
     fn label(&mut self, text: impl Into<String>) -> EntityCommands;
+
+    /// Extra: Level-based settings field
+    fn settings_field(
+        &mut self,
+        field_title: impl Into<String>,
+        field_text: impl Into<String>,
+        scope: impl Component + Copy,
+    ) -> EntityCommands;
 }
 
 impl<T: Spawn> Widgets for T {
@@ -111,6 +119,49 @@ impl<T: Spawn> Widgets for T {
             ));
         });
         entity
+    }
+
+    fn settings_field(
+        &mut self,
+        field_title: impl Into<String>,
+        field_text: impl Into<String>,
+        scope: impl Component + Copy,
+    ) -> EntityCommands {
+        let mut label = self.label(field_title);
+        label.with_children(|field| {
+            field
+                .spawn(NodeBundle {
+                    style: Style {
+                        width: Px(500.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|volume_text| {
+                    volume_text.spawn((
+                        TextBundle::from_section(
+                            field_text,
+                            TextStyle {
+                                font_size: 16.0,
+                                color: Color::WHITE,
+                                ..default()
+                            },
+                        ),
+                        scope,
+                    ));
+                });
+            field.button("-").insert(LevelSettingAction {
+                scope,
+                adjustment: BinaryAdjustment::Down,
+            });
+            field.button("+").insert(LevelSettingAction {
+                scope,
+                adjustment: BinaryAdjustment::Up,
+            });
+        });
+        label
     }
 }
 

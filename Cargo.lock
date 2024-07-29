@@ -311,6 +311,7 @@ dependencies = [
  "bevy",
  "log",
  "rand",
+ "serde",
 ]
 
 [[package]]

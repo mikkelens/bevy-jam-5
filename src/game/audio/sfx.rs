@@ -2,6 +2,7 @@ use bevy::{audio::PlaybackMode, prelude::*};
 use rand::seq::SliceRandom;
 
 use crate::game::assets::{HandleMap, SfxKey};
+use crate::GameSettings;
 
 pub(super) fn plugin(app: &mut App) {
     app.observe(play_sfx);
@@ -11,6 +12,7 @@ fn play_sfx(
     trigger: Trigger<PlaySfx>,
     mut commands: Commands,
     sfx_handles: Res<HandleMap<SfxKey>>,
+    settings: Res<GameSettings>,
 ) {
     let sfx_key = match trigger.event() {
         PlaySfx::Key(key) => *key,
@@ -20,6 +22,7 @@ fn play_sfx(
         source: sfx_handles[&sfx_key].clone_weak(),
         settings: PlaybackSettings {
             mode: PlaybackMode::Despawn,
+            volume: (&settings.sfx_volume_level_relative).into(),
             ..default()
         },
     });
