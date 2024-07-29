@@ -1,4 +1,3 @@
-
 #[cfg(feature = "dev")]
 mod dev_tools;
 mod game;
@@ -206,6 +205,5 @@ struct GameSettings {
     global_volume_level: VolumeSetting,
     soundtrack_volume_level_relative: VolumeSetting,
     sfx_volume_level_relative: VolumeSetting,
-    
     // could add more settings, e.g. vfxs settings
 }
