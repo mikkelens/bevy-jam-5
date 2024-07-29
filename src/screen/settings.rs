@@ -87,7 +87,10 @@ fn handle_volume_action(
             .first_mut() // only one section in text field
             .unwrap()
             .value = setting_level.percent_display();
-        info!("Updated setting of {:?} to level {:.}.", scope, setting_level.0.0);
+        info!(
+            "Updated setting of {:?} to level {:.}.",
+            scope, setting_level.0 .0
+        );
         // apply elsewhere?
         if update_global {
             global_volume.volume = (&settings.global_volume_level).into();

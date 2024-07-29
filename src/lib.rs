@@ -1,5 +1,3 @@
-#![feature(adt_const_params)]
-
 #[cfg(feature = "dev")]
 mod dev_tools;
 mod game;
@@ -26,7 +24,9 @@ impl Plugin for AppPlugin {
 
         let settings = GameSettings {
             global_volume_level: VolumeSetting::from_divisor_added(2),
-            soundtrack_volume_level_relative: VolumeSetting::from_divisor_removed(VolumeSetting::DIFF),
+            soundtrack_volume_level_relative: VolumeSetting::from_divisor_removed(
+                VolumeSetting::DIFF,
+            ),
             sfx_volume_level_relative: VolumeSetting::from_divisor_removed(VolumeSetting::DIFF / 2),
         };
 
