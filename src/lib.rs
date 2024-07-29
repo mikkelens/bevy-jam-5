@@ -206,5 +206,6 @@ struct GameSettings {
     global_volume_level: VolumeSetting,
     soundtrack_volume_level_relative: VolumeSetting,
     sfx_volume_level_relative: VolumeSetting,
-    // camera shake / vfx off?
+    
+    // could add more settings, e.g. vfxs settings
 }
